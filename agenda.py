@@ -12,9 +12,8 @@ at the moment they only print their own time compared to the start
 -would also be good to put this on gitHub to track changes?
 
 """
-
 from datetime import datetime, time, timedelta, date
-import csv
+#import csv.py
 
 class Agenda:
     def __init__(self, name, startTime):
@@ -36,7 +35,6 @@ class Agenda:
         
         self.agendaTimes.append(self.only_t)
         
-       
     def addAgendaItem(self, name, time):
         """
         a function to add an AgendaItem, with a name and time as input
@@ -48,10 +46,10 @@ class Agenda:
         self.currentTime = self.currentTime + timedelta(minutes=intLength)
 
         #strip out just the time, not the date
-        only_t = self.currentTime.time()
+        only_time = self.currentTime.time()
         
         self.agendaList.append(name)
-        self.agendaTimes.append(only_t)  
+        self.agendaTimes.append(only_time)  
 
     def printHeader(self):
         """
@@ -102,13 +100,4 @@ while True:
     agenda1.printHeader()
     agenda1.printAgenda()
 """
-##Test code
-agenda1 = Agenda("Test Agenda", "10:00")
-agenda1.printHeader()
 
-agenda1.addAgendaItem("Item1", "30")
-agenda1.addAgendaItem("Item2", "30")
-agenda1.addAgendaItem("Item3", "60")
-agenda1.addAgendaItem("Item4", "45")
-agenda1.addAgendaItem("Item5", "25")
-agenda1.printAgenda()
