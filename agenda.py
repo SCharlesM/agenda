@@ -34,7 +34,12 @@ class Agenda:
         self.only_t = self.currentTime.time()
         
         self.agendaTimes.append(self.only_t)
-        
+"""
+##initialise a class with name and start time
+    def __init__(self, name, startTime):
+        self.name = name
+        self.startTime 
+"""
     def addAgendaItem(self, name, time):
         """
         a function to add an AgendaItem, with a name and time as input
