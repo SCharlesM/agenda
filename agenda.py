@@ -32,13 +32,7 @@ class Agenda:
 
         ##strip out the time, and remove date
         self.startingTime = self.currentTime.time()
-        
-"""
-##initialise a class with name and start time
-    def __init__(self, name, startTime):
-        self.name = name
-        self.startTime 
-"""
+
     def addAgendaItem(self, name, duration):
         """
         a function to add an AgendaItem, as a list of 2 variables, name and duration
@@ -49,8 +43,18 @@ class Agenda:
         #convert the string input into an integer
        # intDuratoon = int(duration)
         
-        agendaItemList[name, duration]
-        agendaList.append(agendaItemList)
+        agendaItemList = []
+        agendaItemList.append(name)
+        agendaItemList.append(duration)
+
+        #print test to check data is going in!
+        #print(agendaItemList[0] + "   :  " + agendaItemList[1])
+       
+        #add these items lists to the main agenda list
+        self.agendaList.append(agendaItemList)
+
+        #test to see all the info is in the list *delete*
+        #print(self.agendaList)
 
     def printAgenda(self):
         """
@@ -62,40 +66,45 @@ class Agenda:
         print("Title: " + self.name)
         print("Start time: " + str(self.startingTime))
         print("--------------------------------")
+        print("Title" + "           " + "Duration")
         
         #variables to hold starttime and endtime
         st = self.startingTime
         et = 0
+        print(self.agendaList)
+        newList = self.agendaList[0]
+        print(newList[0] + "  " + newList[1])
+"""
+        i = 0
+        while i < len(self.agendaList):
 
-        i=0
-        while i<len(self.agendaList):
-          #  print((i+1) + "  .  " + st + " -  " + st + 
-          print
-
-
-
-        
-        """    
+            name = self.agendaList[0]
+            print((i+1) + (str.name))
+            i += 1
+"""
+"""
     def printAgenda(self):
         
         a function to print the full agenda eg
         ["item1", "item2" , "item3"]
         [9.30, 10.00, 11.45, 12.00]
-        """
+        
         i=0
         while i < len(self.agendaList):
             print(self.agendaTimes[i], end=" ")
             print(self.agendaList[i])
             i+=1
-      """      
-    def changeAgendaItem():
-        """
-        a function to edit an AgendaItem, including Title and length
-        """
+"""  
+"""  
+    def editAgendaItem():
+
+        a function to edit an AgendaItem, including Title and duration
+    """
+"""
     def exportToFile():
-        """
+    
         A function to export the Agenda to another document potentially to print/copy
-        """
+    """
 """
 #main function
 newName=input("Enter the Agenda title: ")
@@ -116,4 +125,3 @@ while True:
     agenda1.printHeader()
     agenda1.printAgenda()
 """
-
