@@ -19,54 +19,65 @@ class Agenda:
     def __init__(self, name, startTime):
         self.name = name
         self.agendaList = []
-        self.agendaTimes = []
-
+        
         ##take a string as input for the time
         self.startTime = startTime
         
         ##convert string to a time object
-        self.to = datetime.strptime(self.startTime, "%H:%M")
+        self.time_object = datetime.strptime(self.startTime, "%H:%M")
 
         ##variable to track currentTime
-        self.currentTime = self.to
+        ##im not sure i need this
+        self.currentTime = self.time_object
 
-        ##strip out the time, not the date
-        self.only_t = self.currentTime.time()
+        ##strip out the time, and remove date
+        self.startingTime = self.currentTime.time()
         
-        self.agendaTimes.append(self.only_t)
 """
 ##initialise a class with name and start time
     def __init__(self, name, startTime):
         self.name = name
         self.startTime 
 """
-    def addAgendaItem(self, name, time):
+    def addAgendaItem(self, name, duration):
         """
-        a function to add an AgendaItem, with a name and time as input
-        
+        a function to add an AgendaItem, as a list of 2 variables, name and duration
         """
+        #a list to store agendaItem name an duration
+        #agendaItemList = []
+
         #convert the string input into an integer
-        intLength = int(time)
-        #add the length in minutes to the time object
-        self.currentTime = self.currentTime + timedelta(minutes=intLength)
-
-        #strip out just the time, not the date
-        only_time = self.currentTime.time()
+       # intDuratoon = int(duration)
         
-        self.agendaList.append(name)
-        self.agendaTimes.append(only_time)  
+        agendaItemList[name, duration]
+        agendaList.append(agendaItemList)
 
-    def printHeader(self):
+    def printAgenda(self):
         """
-        a function to print the header of the agenda
+        a function to print the agenda by moving through the
+        index and printing each item and adding on the
+        duration to make a starttime and endtime
         """
         print("--------------------------------")
         print("Title: " + self.name)
-        print("Start time: " + str(self.startTime))
+        print("Start time: " + str(self.startingTime))
         print("--------------------------------")
         
+        #variables to hold starttime and endtime
+        st = self.startingTime
+        et = 0
+
+        i=0
+        while i<len(self.agendaList):
+          #  print((i+1) + "  .  " + st + " -  " + st + 
+          print
+
+
+
+        
+        """    
     def printAgenda(self):
-        """
+        
         a function to print the full agenda eg
         ["item1", "item2" , "item3"]
         [9.30, 10.00, 11.45, 12.00]
@@ -76,7 +87,7 @@ class Agenda:
             print(self.agendaTimes[i], end=" ")
             print(self.agendaList[i])
             i+=1
-            
+      """      
     def changeAgendaItem():
         """
         a function to edit an AgendaItem, including Title and length
