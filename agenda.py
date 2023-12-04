@@ -21,40 +21,18 @@ class Agenda:
         self.agendaList = []
         
         ##take a string as input for the time
-        self.startTime = startTime
-        
-        ##convert string to a time object
-        self.time_object = datetime.strptime(self.startTime, "%H:%M")
-
-        ##variable to track currentTime
-        ##im not sure i need this
-        self.currentTime = self.time_object
-
-        ##strip out the time, and remove date
-        self.startingTime = self.currentTime.time()
+        self.startingTime = startTime
 
     def addAgendaItem(self, name, duration):
         """
         a function to add an AgendaItem, as a list of 2 variables, name and duration
-        """
-        #a list to store agendaItem name an duration
-        #agendaItemList = []
-
-        #convert the string input into an integer
-       # intDuratoon = int(duration)
-        
+        """        
         agendaItemList = []
         agendaItemList.append(name)
         agendaItemList.append(duration)
-
-        #print test to check data is going in!
-        #print(agendaItemList[0] + "   :  " + agendaItemList[1])
        
         #add these items lists to the main agenda list
         self.agendaList.append(agendaItemList)
-
-        #test to see all the info is in the list *delete*
-        #print(self.agendaList)
 
     def printAgenda(self):
         """
@@ -66,35 +44,41 @@ class Agenda:
         print("Title: " + self.name)
         print("Start time: " + str(self.startingTime))
         print("--------------------------------")
-        print("Title" + "           " + "Duration")
-        
-        #variables to hold starttime and endtime
-        st = self.startingTime
-        et = 0
-        print(self.agendaList)
-        newList = self.agendaList[0]
-        print(newList[0] + "  " + newList[1])
-"""
+        s1 = "Index"
+        s2 = "Startime"
+        s3 = "Endtime"
+        s4 = "Topic"
+        s5 = "Duration"
+        print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s} '.format(s1, s2, s3, s4, s5))
+        #print(self.agendaList)
+
+        #iterate throught the agendaList and print each name and duration
         i = 0
         while i < len(self.agendaList):
+            
+            newList = self.agendaList[i]
+            string_index = str(i+1)
 
-            name = self.agendaList[0]
-            print((i+1) + (str.name))
+            #convert string to a time object and format
+            time_object_start = datetime.strptime(self.startingTime, "%H:%M")
+
+            #add the duration 
+            time_object_end = time_object_start + timedelta(minutes = 60)
+
+            """
+            Need to fix these variables to add starttime and endtime
+            """
+            #string_starttime = time_object_start.time()
+            string_starttime = self.startingTime
+
+            string_endtime = time_object_end.time()
+            string_topic = newList[0]
+            string_duration = newList[1]
+
+            #format the strings, left align 20, left align 10 (string)
+            print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format(string_index, string_starttime, string_endtime, string_topic, string_duration))
             i += 1
-"""
-"""
-    def printAgenda(self):
-        
-        a function to print the full agenda eg
-        ["item1", "item2" , "item3"]
-        [9.30, 10.00, 11.45, 12.00]
-        
-        i=0
-        while i < len(self.agendaList):
-            print(self.agendaTimes[i], end=" ")
-            print(self.agendaList[i])
-            i+=1
-"""  
+
 """  
     def editAgendaItem():
 
