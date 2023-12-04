@@ -13,7 +13,7 @@ print("The current time is: " + x.strftime("%H" + " %M"))
 
 
 # parse datetime string and add minutes to datetime
-# time string
+# time string with timedelta
 time = "10:30"
 #convert string to time object
 timeObject = datetime.strptime(time, "%H:%M")
