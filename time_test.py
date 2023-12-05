@@ -15,10 +15,6 @@ print("Today is: " + x.strftime("%A"))
 print("The current time is: " + x.strftime("%H" + " %M"))
 
 # parse datetime string and add minutes to datetime
-<<<<<<< HEAD
-=======
-# time string with timedelta
->>>>>>> e5e1c7c20862b8d038d205f9b80484830326bd25
 time = "10:30"
 #convert string to time object
 timeObject = datetime.strptime(time, "%H:%M")
@@ -43,6 +39,7 @@ def addDuration(start_time, duration):
 
     #convert string to a time object and format
     time_object_start = datetime.strptime(start_time, "%H:%M")
+    print("the time object looks like this: " + str(time_object_start))
 
     #add the duration 
     time_object_end = time_object_start + timedelta(minutes = 60)

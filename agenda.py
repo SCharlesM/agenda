@@ -4,12 +4,12 @@
 """
 Current program runs with no errors!
 I need to add
--a currentTime variable to keep each item adding to
-at the moment they only print their own time compared to the start
--i need an exception handler for the time format at the start
--i need an edit function that changes the length of an item
--this edit function could also change
--would also be good to put this on gitHub to track changes?
+1 - finish print funtion
+2 - edit AgendaItem function, edit name, length, position etc
+other features:
+-print to CSV to copy into Excel/Word
+-export straight to Excel?
+-imports topic names from csv/Excel?
 
 """
 from datetime import datetime, time, timedelta, date
@@ -42,7 +42,7 @@ class Agenda:
         """
         print("--------------------------------")
         print("Title: " + self.name)
-        print("Start time: " + str(self.startingTime))
+        print("Start time: " + self.startingTime)
         print("--------------------------------")
         s1 = "Index"
         s2 = "Startime"
@@ -52,31 +52,29 @@ class Agenda:
         print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s} '.format(s1, s2, s3, s4, s5))
         #print(self.agendaList)
 
-        #iterate throught the agendaList and print each name and duration
+        string_starttime = self.startingTime
+
+        #iterate throught the agendaList and print an index, starttime, endtime, name and duration
         i = 0
         while i < len(self.agendaList):
             
             newList = self.agendaList[i]
             string_index = str(i+1)
 
-            #convert string to a time object and format
-            time_object_start = datetime.strptime(self.startingTime, "%H:%M")
+            #convert string to a time object and format. add the duration.
+            time_object_start = datetime.strptime(string_starttime, "%H:%M:%S")
+            duration_to_add = newList[1]
+            time_object_end = time_object_start + timedelta(minutes = int(duration_to_add))
+            string_endtime = str(time_object_end.time())
 
-            #add the duration 
-            time_object_end = time_object_start + timedelta(minutes = 60)
-
-            """
-            Need to fix these variables to add starttime and endtime
-            """
-            #string_starttime = time_object_start.time()
-            string_starttime = self.startingTime
-
-            string_endtime = time_object_end.time()
             string_topic = newList[0]
             string_duration = newList[1]
 
             #format the strings, left align 20, left align 10 (string)
             print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format(string_index, string_starttime, string_endtime, string_topic, string_duration))
+            
+            string_starttime = string_endtime
+
             i += 1
 
 """  

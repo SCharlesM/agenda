@@ -5,7 +5,7 @@ or should this be called agenda main or something
 
 from agenda import Agenda
 
-agenda1 = Agenda("Test Agenda", "10:00")
+agenda1 = Agenda("Test Agenda", "10:00:00")
 
 agenda1.addAgendaItem("Introduction", "15")
 agenda1.addAgendaItem("Topic 1", "45")
