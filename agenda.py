@@ -13,7 +13,7 @@ other features:
 
 """
 from datetime import datetime, time, timedelta, date
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 import string
 #import csv.py
 
@@ -144,7 +144,7 @@ class Agenda:
 
     def inputFromExcel(self, filename):
 
-        workbook = load_workbook(filename='agenda_input.xlsx')
+        Workbook = load_workbook(filename='agenda_input.xlsx')
 """
 main function to take input and control output
 """
