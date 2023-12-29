@@ -1,21 +1,25 @@
 """
-Agenda is a program to make writing
-an agenda easier. Input agenda item names and
-times and have an easy way to change times
+Agenda is a simple program to make writing and editing 
+an agenda easier. 
+
+Input is from a agenda_test.py which uses the class
+methods to generate the agenda and test the methods
+
+v1 can input from command line (maybe and excel?)
 """
+
 from datetime import datetime, time, timedelta, date
 from openpyxl import Workbook, load_workbook
 import string
-#import csv.py
 
 class Agenda:
     def __init__(self, name, startTime):
         self.name = name
 
-        ##take a string as input for the time
+        #take a string as input for the time
         self.startingTime = startTime
 
-        ##convert into a time object to keep track of current_time
+        #convert string into a time object to keep track of current_time
         self.time_object_current = datetime.strptime(self.startingTime, "%H:%M:%S")
         self.string_current_time = str(self.time_object_current.time())
 
@@ -24,17 +28,17 @@ class Agenda:
         header_list = ['Index', 'Start-time', 'Endtime', 'Topic', 'Duration']
         self.agendaList.append(header_list)
 
+    """
+    A function to add an AgendaItem with a name and duration. It is then stored
+    in list with 5 items: Index, Starttime, Endtime, Topic, duration
+    """  
     def addAgendaItem(self, name, duration):
-        """
-        a function to add an AgendaItem,
-        a list of 5 variables: Index, Starttime, Endtime, Topic, duration
-        """        
+      
         agendaItemList = []
-        index = len(self.agendaList)
+        index = len(self.agendaList) - 1
         agendaItemList.append(index+1)
 
         #initialise the start time from the Agenda class current time
-        #current_time = str(self.string_current_time)
         agendaItemList.append(str(self.time_object_current.time()))
 
         #add the duration to get 'endtime' and update 'current_time'
@@ -46,7 +50,7 @@ class Agenda:
         agendaItemList.append(name)
         agendaItemList.append(duration)
        
-        #add this list to the main agenda list
+        #add agendaItemList to the agendaList
         self.agendaList.append(agendaItemList)
 
     """
@@ -55,21 +59,13 @@ class Agenda:
     """
     def printAgenda(self):
                 
-        #print a header
+        #print the header
         print("--------------------------------")
         print("Title: " + self.name)
         print("Start time: " + self.startingTime)
         print("--------------------------------")
-        """
-        s1 = "Index"
-        s2 = "Startime"
-        s3 = "Endtime"
-        s4 = "Topic"
-        s5 = "Duration"
-        print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s} '.format(s1, s2, s3, s4, s5))
-        #print(self.agendaList)
-        """
-        #iterate throught the agenaList and print each individual list
+
+        #iterate throught the agendaList and print each individual list
         for j in range(0, len(self.agendaList)):
 
             new_list = self.agendaList[j]
@@ -88,7 +84,7 @@ class Agenda:
     """
     def editAgendaItemTitle(self, index, new_title):
 
-        temp_list = self.agendaList[index-1]
+        temp_list = self.agendaList[index]
         temp_list[3] = new_title
 
     """
@@ -136,15 +132,3 @@ class Agenda:
     def inputFromExcel(self, filename):
 
         Workbook = load_workbook(filename='agenda_input.xlsx')
-"""
-main function to take input and control output
-"""
-"""
-def main():
-    print("Enter your name")
-    x = input()
-    print("Hello " + x)
-
-if __name__ == "__main__":
-    main()        
-"""

@@ -20,12 +20,12 @@ agenda1.addAgendaItem("Closing", "15")
 agenda1.printAgenda()
 
 #change the 1st entry to "Intro"
-#agenda1.editAgendaItemTitle(1, "Intro")
-#agenda1.printAgenda()
+agenda1.editAgendaItemTitle(1, "Intro")
+agenda1.printAgenda()
 
 #change the 1st entry duration to 60
-#agenda1.editAgendaItemDuration(1, "60")
-#agenda1.printAgenda()
+agenda1.editAgendaItemDuration(1, "60")
+agenda1.printAgenda()
 
-agenda1.exportToExcel("Agenda1.xlsx")
+agenda1.exportToExcel("agenda_output.xlsx")
 
