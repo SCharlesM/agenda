@@ -16,7 +16,7 @@ while True :
           "\n7. Open a saved Agenda Project"
           "\nx. Close program")
 
-    choice = input("\nType 1, 2, 3 or x: ")
+    choice = input("\nType 1, 2, 3, 4, 5, 6, 7 or x: ")
     
     if choice == "1":
         print("You chose 1, Start a new agenda project")
@@ -34,9 +34,9 @@ while True :
 
     elif choice == "3":
         print("You chose 3, edit an Agenda Item Title")
-        change = input("Type the index of the item you would like to edit")
+        index = str(input("Type the index of the item you would like to edit"))
         title = input("What is the new title?")
-        agenda1.editAgendaItemTitle(change, title)
+        agenda1.editAgendaItemTitle(index, title)
         agenda1.printAgenda()
 
     elif choice == "4":
@@ -51,12 +51,17 @@ while True :
     
     elif choice == "6":
         print("you chose option 6. Save an Agenda Project")
+        agenda1.saveToCSV()
     
     elif choice == "7":
         print("You chose option 7. Open a saved Agenda Project")
+        print("for now we are just opening 1 saved agenda as a test")
+        agenda1 = Agenda()
+        #agenda1.openCSV()
+        #agenda1.printAgenda()
     
     elif choice == "x":
-        print("You chose x, Agenda is closing")
+        print("\nYou chose x, Agenda is closing")
         break
     else :
         print("\nThat input is not recognised, try again!")

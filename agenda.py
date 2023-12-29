@@ -2,22 +2,18 @@
 ## an agenda easier. Input agenda item names and
 ## times and have an easy way to change times
 """
-Current program runs with no errors!
-I need to add
-1 - finish print funtion
-2 - edit AgendaItem function, edit name, length, position etc
-other features:
--print to CSV to copy into Excel/Word
--export straight to Excel?
--imports topic names from csv/Excel?
+-save new Agenda to csv file
+-export to excel to copy into word file
+-imports topic names
 
 """
 from datetime import datetime, time, timedelta, date
 from openpyxl import Workbook, load_workbook
 import string
-#import csv.py
+import csv
 
 class Agenda:
+    
     def __init__(self, name, startTime):
         self.name = name
 
@@ -32,6 +28,25 @@ class Agenda:
         self.agendaList = []
         header_list = ['Index', 'Start-time', 'Endtime', 'Topic', 'Duration']
         self.agendaList.append(header_list)
+    
+    ## a new version of the Class without arguments
+    ## look into how this works
+    """
+    def __init__(self):
+        #self.name = name
+
+        ##take a string as input for the time
+        #self.startingTime = startTime
+
+        ##convert into a time object to keep track of current_time
+        #self.time_object_current = datetime.strptime(self.startingTime, "%H:%M:%S")
+        #self.string_current_time = str(self.time_object_current.time())
+
+        #initialise an empty list and add the header info
+        self.agendaList = []
+        header_list = ['Index', 'Start-time', 'Endtime', 'Topic', 'Duration']
+        self.agendaList.append(header_list)
+    """
 
     def addAgendaItem(self, name, duration):
         """
@@ -40,7 +55,7 @@ class Agenda:
         """        
         agendaItemList = []
         index = len(self.agendaList)
-        agendaItemList.append(index+1)
+        agendaItemList.append(index)
 
         #initialise the start time from the Agenda class current time
         #current_time = str(self.string_current_time)
@@ -69,16 +84,8 @@ class Agenda:
         print("Title: " + self.name)
         print("Start time: " + self.startingTime)
         print("--------------------------------")
-        """
-        s1 = "Index"
-        s2 = "Startime"
-        s3 = "Endtime"
-        s4 = "Topic"
-        s5 = "Duration"
-        print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s} '.format(s1, s2, s3, s4, s5))
-        #print(self.agendaList)
-        """
-        #iterate throught the agenaList and print each individual list
+       
+        #iterate throught the agendaList and print each individual list
         for j in range(0, len(self.agendaList)):
 
             new_list = self.agendaList[j]
@@ -145,15 +152,39 @@ class Agenda:
     def inputFromExcel(self, filename):
 
         Workbook = load_workbook(filename='agenda_input.xlsx')
-"""
-main function to take input and control output
-"""
-"""
-def main():
-    print("Enter your name")
-    x = input()
-    print("Hello " + x)
 
-if __name__ == "__main__":
-    main()        
-"""
+    """
+    a function to save the current AgenaList to a CSV file
+    """
+    def saveAgenda(self, name, time, list):
+        print('\nSaved Agenda')
+
+        with open('saved_agendas.txt', mode='a') as save_file:
+            file_writer = csv.writer(save_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+            #file_writer.writerow(['agenda5, Test 5, 07:00:00'])
+            file_writer.writerow([name, time, list])
+
+    """
+    a function to load an AgenaList from a CSV file
+    """
+    def openCSV(self):
+        """
+        with open('agenda1.txt') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                if line_count == 0:
+                    print(f'Column names are {",".join(row)}')
+                    line_count += 1
+                else:
+                    print(f'\t{row[4]} is the topic')
+                    line_count += 1
+            print(f'Processed {line_count} lines.')
+            """
+        
+        with open('agenda1.txt') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            
+            for row in csv_reader:
+                print(f'\t{row[1]} , {row[2]} , {row[3]} , {row[4]} , {row[5]} ')
