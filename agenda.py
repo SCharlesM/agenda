@@ -2,10 +2,9 @@
 Agenda is a simple program to make writing and editing 
 an agenda easier. 
 
-Input is from a agenda_test.py which uses the class
-methods to generate the agenda and test the methods
-
-v1 can input from command line (maybe and excel?)
+When run as a script from the commandline, agenda takes a excel file as an input
+'agenda_input.py' with a start-time, session titles and durations and produces an output 
+file with the individual session times
 """
 
 from datetime import datetime, time, timedelta, date
@@ -132,3 +131,8 @@ class Agenda:
     def inputFromExcel(self, filename):
 
         Workbook = load_workbook(filename='agenda_input.xlsx')
+
+
+if __name__ =="__main__":
+
+    print("Hello World")
