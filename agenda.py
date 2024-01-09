@@ -130,9 +130,48 @@ class Agenda:
 
     def inputFromExcel(self, filename):
 
-        Workbook = load_workbook(filename='agenda_input.xlsx')
+        workbook = load_workbook(filename='agenda_input.xlsx')
+        sheet = workbook.active
 
+        """
+        print(workbook.sheetnames)
+        print(sheet["A1"].value)
+
+        sessions_list = []
+        for x in range(10):
+            sessions_list.append(sheet["A"+ str(x)].value)
+        print(sessions_list)
+        """
+        value_list = []
+
+        #iterate through the sheet and return the cells values
+        for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
+            
+
+            #print(value[0], value[1])
+            #print(value[1])
+           # print(value[2])
+            
+            value = row[0]
+            value_list.append(value)
+            value2 = row[1]
+            value_list.append(value2)
+        #print(value_list)
+        return value_list
+            
 
 if __name__ =="__main__":
 
-    print("Hello World")
+    agenda1 = Agenda("Test Agenda", "10:00:00")
+
+    agenda1.printAgenda()
+    
+    list = agenda1.inputFromExcel("agenda_input.xlsx")
+    #print(list)
+
+    print(list[0])
+    print(list[1])
+    agenda1.addAgendaItem(list[0], (list[1]))
+    agenda1.printAgenda()
+
+    
