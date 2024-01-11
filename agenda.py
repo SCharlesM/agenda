@@ -1,10 +1,9 @@
 """
-Agenda is a simple program to make writing and editing 
-an agenda easier. 
+Agenda is a simple program to make writing an Agenda easier
 
-When run as a script from the commandline, agenda takes a excel file as an input
-'agenda_input.py' with a start-time, session titles and durations and produces an output 
-file with the individual session times
+When run as a script from the commandline, agenda takes 'agenda_input.xlsx' excel file as 
+an input that includes a start-time, session titles and durations and produces an output excel
+file with the individual session times added.
 """
 
 from datetime import datetime, time, timedelta, date
@@ -53,8 +52,8 @@ class Agenda:
         self.agendaList.append(agendaItemList)
 
     """
-    a print function to print a header and iterate through the
-    agendaList to print each item
+    a print function to print a header and iterate through the agendaList to print each item
+
     """
     def printAgenda(self):
                 
@@ -80,6 +79,7 @@ class Agenda:
 
     """
     a function to change title of an AgendaItem, using the index of that AgendaItem
+
     """
     def editAgendaItemTitle(self, index, new_title):
 
@@ -88,6 +88,7 @@ class Agenda:
 
     """
     a function to change duration of an AgendaItem, using the index of that item
+
     """
     def editAgendaItemDuration(self, index, new_duration):
 
@@ -95,7 +96,8 @@ class Agenda:
         temp_list[4] = new_duration
 
     """
-        A function to export the Agenda to and Excel document
+        A function to export the Agenda to an Excel document
+
     """
     def exportToExcel(self, filename):
 
@@ -130,23 +132,15 @@ class Agenda:
 
     def inputFromExcel(self, filename):
 
+        #initialise the workbook with filename
         workbook = load_workbook(filename='agenda_input.xlsx')
         sheet = workbook.active
 
-        """
-        print(workbook.sheetnames)
-        print(sheet["A1"].value)
-
-        sessions_list = []
-        for x in range(10):
-            sessions_list.append(sheet["A"+ str(x)].value)
-        print(sessions_list)
-        """
+        #iterate through the sheet, return the cell values and add them to a value list and return
         value_list = []
 
-        #iterate through the sheet and return the cells values
         for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
-                        
+
             value = row[0]
             value_list.append(value)
             value2 = str(int(row[1]))
@@ -158,12 +152,11 @@ class Agenda:
 if __name__ =="__main__":
 
     agenda1 = Agenda("Test Agenda", "10:00:00")
-    #agenda1.printAgenda()
     
-    #populate a list of session titles and durations from the excel input file
+    #populate a list with session titles and durations from the excel input file
     list = agenda1.inputFromExcel("agenda_input.xlsx")
 
-    #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem'
+    #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
     list_index = 0
     while list_index < len(list):
         agenda1.addAgendaItem(list[list_index], (list[list_index+1]))
