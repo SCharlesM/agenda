@@ -146,32 +146,31 @@ class Agenda:
 
         #iterate through the sheet and return the cells values
         for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
-            
-
-            #print(value[0], value[1])
-            #print(value[1])
-           # print(value[2])
-            
+                        
             value = row[0]
             value_list.append(value)
-            value2 = row[1]
+            value2 = str(int(row[1]))
             value_list.append(value2)
-        #print(value_list)
+
         return value_list
             
 
 if __name__ =="__main__":
 
     agenda1 = Agenda("Test Agenda", "10:00:00")
-
-    agenda1.printAgenda()
+    #agenda1.printAgenda()
     
+    #populate a list of session titles and durations from the excel input file
     list = agenda1.inputFromExcel("agenda_input.xlsx")
-    #print(list)
 
-    print(list[0])
-    print(list[1])
-    agenda1.addAgendaItem(list[0], (list[1]))
+    #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem'
+    list_index = 0
+    while list_index < len(list):
+        agenda1.addAgendaItem(list[list_index], (list[list_index+1]))
+        list_index = list_index + 2
+
+    #print the agenda to the commandline but also export to excel to allow copy and paste to another table
     agenda1.printAgenda()
+    agenda1.exportToExcel("agenda_output.xlsx")
 
     
