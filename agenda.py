@@ -12,9 +12,24 @@ import string
 
 class Agenda:
 
-    #writing an empty constructor/initialiser
+    """
+    initialise a new agenda with initial variables
+    agenda_name is a string
+    agenda_starttime = is an empty time object
+    agendaList will be used to hold the topics and durations of each item
+
+    """
     def __init__(self):
-        pass
+        
+        self.agenda_name = "test"
+        self.agenda_starttime = "00:00:00"
+        self.agendaList = []
+
+        #convert the agenda_starttime string into a time object 
+        #to keep track of current time
+        self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
+        self.string_current_time = str(self.time_object_current.time())
+
     """
     def __init__(self, name, startTime):
         self.name = name
@@ -64,8 +79,8 @@ class Agenda:
                 
         #print the header
         print("--------------------------------")
-        print("Title: " + self.name)
-        print("Start time: " + self.startingTime)
+        print("Title: " + self.agenda_name)
+        print("Start time: " + self.agenda_starttime)
         print("--------------------------------")
 
         #iterate throught the agendaList and print each individual list
@@ -144,6 +159,11 @@ class Agenda:
         #iterate through the sheet, return the cell values and add them to a value list and return
         value_list = []
 
+        title = sheet["B2"].value
+        value_list.append(title)
+        start = sheet["B3"].value
+        value_list.append(start)
+
         for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
 
             value = row[0]
@@ -158,10 +178,11 @@ if __name__ =="__main__":
 
     #agenda1 = Agenda("Test Agenda", "10:00:00")
     agenda1 = Agenda()
+    agenda1.printAgenda()
 
-    """
     #populate a list with session titles and durations from the excel input file
     list = agenda1.inputFromExcel("agenda_input.xlsx")
+    print(list)
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
     list_index = 0
@@ -172,5 +193,5 @@ if __name__ =="__main__":
     #print the agenda to the commandline but also export to excel to allow copy and paste to another table
     agenda1.printAgenda()
     agenda1.exportToExcel("agenda_output.xlsx")
-    """
+    
     
