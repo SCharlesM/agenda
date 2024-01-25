@@ -11,6 +11,11 @@ from openpyxl import Workbook, load_workbook
 import string
 
 class Agenda:
+
+    #writing an empty constructor/initialiser
+    def __init__(self):
+        pass
+    """
     def __init__(self, name, startTime):
         self.name = name
 
@@ -25,7 +30,7 @@ class Agenda:
         self.agendaList = []
         header_list = ['Index', 'Start-time', 'Endtime', 'Topic', 'Duration']
         self.agendaList.append(header_list)
-
+    """
     """
     A function to add an AgendaItem with a name and duration. It is then stored
     in list with 5 items: Index, Starttime, Endtime, Topic, duration
@@ -151,8 +156,10 @@ class Agenda:
 
 if __name__ =="__main__":
 
-    agenda1 = Agenda("Test Agenda", "10:00:00")
-    
+    #agenda1 = Agenda("Test Agenda", "10:00:00")
+    agenda1 = Agenda()
+
+    """
     #populate a list with session titles and durations from the excel input file
     list = agenda1.inputFromExcel("agenda_input.xlsx")
 
@@ -165,5 +172,5 @@ if __name__ =="__main__":
     #print the agenda to the commandline but also export to excel to allow copy and paste to another table
     agenda1.printAgenda()
     agenda1.exportToExcel("agenda_output.xlsx")
-
+    """
     
