@@ -153,7 +153,7 @@ class Agenda:
     def inputFromExcel(self, filename):
 
         #initialise the workbook with filename
-        workbook = load_workbook(filename='agenda_input.xlsx')
+        workbook = load_workbook(filename)
         sheet = workbook.active
 
         #iterate through the sheet, return the cell values and add them to a value list and return
@@ -176,25 +176,23 @@ class Agenda:
 
 if __name__ =="__main__":
 
-"""
-initialise a new agenda object
-read from excel
-set agenda title and start time from excel
-add all agenda items (this could be its own function)
-print agenda to commandline
-save to excel
-"""
+    """
+    1. initialise a new agenda object
+    2. read from excel
+    3. set agenda title and start time from excel
+    4. add all agenda items (this could be its own function)
+    5. save to excel and print to commandline
+    """
 
-    #agenda1 = Agenda("Test Agenda", "10:00:00")
     agenda1 = Agenda()
 
     #populate a list with session titles and durations from the excel input file
     list = agenda1.inputFromExcel("agenda_input.xlsx")
     print(list)
 
-#set the title and starting
-agenda1.agenda_name = list[0]
-agenda1.agenda_starttime = list[1]
+    #set the title and starting
+    agenda1.agenda_name = list[0]
+    agenda1.agenda_starttime = list[1]
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
     list_index = 0
