@@ -21,7 +21,7 @@ class Agenda:
     """
     def __init__(self):
         
-        self.agenda_name = "test"
+        self.agenda_name = ""
         self.agenda_starttime = "00:00:00"
         self.agendaList = []
 
@@ -187,11 +187,14 @@ save to excel
 
     #agenda1 = Agenda("Test Agenda", "10:00:00")
     agenda1 = Agenda()
-    agenda1.printAgenda()
 
     #populate a list with session titles and durations from the excel input file
     list = agenda1.inputFromExcel("agenda_input.xlsx")
     print(list)
+
+#set the title and starting
+agenda1.agenda_name = list[0]
+agenda1.agenda_starttime = list[1]
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
     list_index = 0
