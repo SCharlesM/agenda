@@ -27,8 +27,8 @@ class Agenda:
 
         #convert the agenda_starttime string into a time object 
         #to keep track of current time
-        self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
-        self.string_current_time = str(self.time_object_current.time())
+        self.time_object_current_time = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
+        self.string_current_time = str(self.time_object_current_time.time())
 
     """
     def __init__(self, name, startTime):
