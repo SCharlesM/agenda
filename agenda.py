@@ -176,6 +176,15 @@ class Agenda:
 
 if __name__ =="__main__":
 
+"""
+initialise a new agenda object
+read from excel
+set agenda title and start time from excel
+add all agenda items (this could be its own function)
+print agenda to commandline
+save to excel
+"""
+
     #agenda1 = Agenda("Test Agenda", "10:00:00")
     agenda1 = Agenda()
     agenda1.printAgenda()
