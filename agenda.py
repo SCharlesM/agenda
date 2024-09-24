@@ -60,8 +60,8 @@ class Agenda:
         agendaItemList.append(str(self.time_object_current.time()))
 
         #add the duration to get 'endtime' and update 'current_time'
-        duration_to_add = int(duration)
-        time_object_end = self.time_object_current + timedelta(minutes + duration_to_add)
+        #duration_to_add = int(duration)
+        time_object_end = self.time_object_current + timedelta(minutes = int(duration))
         self.time_object_current = time_object_end
 
         agendaItemList.append(str(time_object_end.time()))
