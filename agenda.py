@@ -27,25 +27,9 @@ class Agenda:
 
         #convert the agenda_starttime string into a time object 
         #to keep track of current time
-        self.time_object_current_time = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
-        self.string_current_time = str(self.time_object_current_time.time())
-
-    """
-    def __init__(self, name, startTime):
-        self.name = name
-
-        #take a string as input for the time
-        self.startingTime = startTime
-
-        #convert string into a time object to keep track of current_time
-        self.time_object_current = datetime.strptime(self.startingTime, "%H:%M:%S")
+        self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
         self.string_current_time = str(self.time_object_current.time())
 
-        #initialise an empty list and add the header info
-        self.agendaList = []
-        header_list = ['Index', 'Start-time', 'Endtime', 'Topic', 'Duration']
-        self.agendaList.append(header_list)
-    """
     """
     A function to add an AgendaItem with a name and duration. It is then stored
     in list with 5 items: Index, Starttime, Endtime, Topic, duration
@@ -54,9 +38,10 @@ class Agenda:
       
         agendaItemList = []
         index = len(self.agendaList)
-        agendaItemList.append(index)
+        agendaItemList.append(index+1)
 
         #initialise the start time from the Agenda class current time
+        self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
         agendaItemList.append(str(self.time_object_current.time()))
 
         #add the duration to get 'endtime' and update 'current_time'
@@ -82,6 +67,9 @@ class Agenda:
         print("Title: " + self.agenda_name)
         print("Start time: " + self.agenda_starttime)
         print("--------------------------------")
+        
+        #print the headers
+        print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format('Index', 'start-time', 'end-time', 'Title', 'duration'))
 
         #iterate throught the agendaList and print each individual list
         for j in range(0, len(self.agendaList)):
@@ -161,8 +149,8 @@ class Agenda:
 
         title = sheet["B2"].value
         value_list.append(title)
-        start = sheet["B3"].value
-        value_list.append(start)
+        start = sheet["B3"].value       #start is a date.time object, so i need to convert to string to save?
+        value_list.append(str(start))
 
         for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
 
@@ -195,7 +183,7 @@ if __name__ =="__main__":
     agenda1.agenda_starttime = list[1]
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
-    list_index = 0
+    list_index = 2
     while list_index < len(list):
         agenda1.addAgendaItem(list[list_index], (list[list_index+1]))
         list_index = list_index + 2
