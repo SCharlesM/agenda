@@ -17,19 +17,41 @@ class Agenda:
     initialise a new agenda with initial variables
     agenda_name is a string
     agenda_starttime = is an empty time object
-    agendaList will be used to hold the topics and durations of each item
+    agenda_list will be used to hold the topics and durations of each item
 
     """
     def __init__(self):
         
-        self.agenda_name = ""
-        self.agenda_starttime = "00:00:00"
-        self.agendaList = []
+        #self.agenda_name = ""           #do i need to initialise these?
+        #self.agenda_starttime = "00:00:00"
+        self.agenda_list = []
 
         #convert the agenda_starttime string into a time object 
         #to keep track of cumulative time
-        self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
-        self.string_current_time = str(self.time_object_current.time())
+        #self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
+        #self.string_current_time = str(self.time_object_current.time())
+    """
+    A function to populate the agenda_list from the excel_input. Creat a dictionary
+    with data; index, starttime, endtime, topic and duration
+    """
+    def populate_agenda(self, excel_input) :
+        #pass
+
+        index = 1   #index needs to only go up 1
+                    #there needs to be another iterator that goes up 2
+        while index < len(excel_input) :
+            agenda_dict = dict(index = index, duration = 0, start = 0, end = 0, topic = "")
+            agenda_dict["duration"] = excel_input[index+2]
+            agenda_dict["start"] = str(self.time_object_current.time())
+            self.time_object_current += timedelta(minutes = int(excel_input[index+2]))
+            agenda_dict["end"] = str(self.time_object_current.time())
+            agenda_dict["topic"] = excel_input[index+1]
+            print(agenda_dict)
+
+            self.agenda_list.append(agenda_dict)
+            index += 2
+
+        print(self.agenda_list)
 
     """
     A function to store the data from the Excel document (topic and duration) and 
@@ -38,27 +60,27 @@ class Agenda:
     """  
     def addAgendaItem(self, name, duration):
       
-        agendaItemList = []
-        index = len(self.agendaList)
-        agendaItemList.append(index+1)
+        agenda_item = []
+        index = len(self.agenda_list)
+        agenda_item.append(index+1)
 
         #using the cumulative time tracker as next items start-time
-        agendaItemList.append(str(self.time_object_current.time()))
+        agenda_item.append(str(self.time_object_current.time()))
 
         #add the duration to get 'endtime' and update 'current_time'
         #duration_to_add = int(duration)
         time_object_end = self.time_object_current + timedelta(minutes = int(duration))
         self.time_object_current = time_object_end
 
-        agendaItemList.append(str(time_object_end.time()))
-        agendaItemList.append(name)
-        agendaItemList.append(duration)
+        agenda_item.append(str(time_object_end.time()))
+        agenda_item.append(name)
+        agenda_item.append(duration)
        
-        #add agendaItemList to the agendaList
-        self.agendaList.append(agendaItemList)
+        #add agenda_item to the agenda_list
+        self.agenda_list.append(agenda_item)
 
     """
-    a print function to print a header and iterate through the agendaList to print each item
+    a print function to print a header and iterate through the agenda_list to print each item
 
     """
     def printAgenda(self):
@@ -72,10 +94,10 @@ class Agenda:
         #print the column headings
         print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format('Index', 'Start', 'End', 'Title', 'duration'))
 
-        #iterate throught the agendaList and print each individual list
-        for j in range(0, len(self.agendaList)):
+        #iterate throught the agenda_list and print each individual list
+        for j in range(0, len(self.agenda_list)):
 
-            new_list = self.agendaList[j]
+            new_list = self.agenda_list[j]
 
             string_index = str(new_list[0])
             string_starttime = new_list[1]
@@ -88,7 +110,6 @@ class Agenda:
 
     """
         A function to export the Agenda to an Excel document
-
     """
     def exportToExcel(self):
 
@@ -101,16 +122,16 @@ class Agenda:
         timestamp = strftime("_%d_%m_%Y_%I.%M%p", localtime())
         doc_file_name = agenda_name_no_space + timestamp + '.xlsx'
         
-        #loop through each agenda item contained in agendaList to create a temp list.
+        #loop through each agenda item contained in agenda_list to create a temp list.
         #Loop through the excel cell descriptors (A1, B1, C1...) to transfer
         #the agenda item data into each row in the excel sheet
-        for l in range(0 , len(self.agendaList)):
+        for l in range(0 , len(self.agenda_list)):
 
-            agenda_item_list = self.agendaList[l]
+            agenda_item = self.agenda_list[l]
 
-            for k in range(0, len(agenda_item_list)):
+            for k in range(0, len(agenda_item)):
                 cell_description = (string.ascii_uppercase[k] + str(l+1))
-                sheet[cell_description] = agenda_item_list[k]
+                sheet[cell_description] = agenda_item[k]
 
         #save to the workbook using the filename argument
         file_path = 'C:\\Users\\Steve\Documents\\Coding\\python\\agenda_project\\agenda\\outputs\\'
@@ -155,10 +176,14 @@ if __name__ =="__main__":
     agenda1.time_object_current = datetime.strptime(agenda1.agenda_starttime, "%H:%M:%S")
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
+    """
     list_index = 2
     while list_index < len(excel_input):
         agenda1.addAgendaItem(excel_input[list_index], (excel_input[list_index+1]))
         list_index = list_index + 2
+    """
+    #this whole loop could be written as
+    agenda1.populate_agenda(excel_input)
 
     #print the agenda to the commandline but also export to excel to allow copy and paste to another table
     agenda1.printAgenda()
