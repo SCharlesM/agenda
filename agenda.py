@@ -174,12 +174,10 @@ if __name__ =="__main__":
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
     list_index = 2
-    while list_index < len(list):
-        agenda1.addAgendaItem(list[list_index], (list[list_index+1]))
+    while list_index < len(excel_input):
+        agenda1.addAgendaItem(excel_input[list_index], (excel_input[list_index+1]))
         list_index = list_index + 2
 
     #print the agenda to the commandline but also export to excel to allow copy and paste to another table
     agenda1.printAgenda()
     agenda1.exportToExcel("agenda_output.xlsx")
-
-    
