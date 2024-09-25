@@ -115,9 +115,6 @@ class Agenda:
         workbook = Workbook()
         sheet = workbook.active
 
-        #add data to the workbook
-        #sheet["A1"] = str(self.five_agenda_list)
-
         new_list = self.agendaList[0]
 
         #populate a list with the uppercase letters
@@ -150,7 +147,7 @@ class Agenda:
 
         title = sheet["B2"].value
         value_list.append(title)
-        start = sheet["B3"].value       #start is a date.time object, so i need to convert to string to save?
+        start = sheet["B3"].value
         value_list.append(str(start))
 
         for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
@@ -165,23 +162,14 @@ class Agenda:
 
 if __name__ =="__main__":
 
-    """
-    1. initialise a new agenda object
-    2. read from excel
-    3. set agenda title and start time from excel
-    4. add all agenda items (this could be its own function)
-    5. save to excel and print to commandline
-    """
-
     agenda1 = Agenda()
 
     #populate a list with session titles and durations from the excel input file
-    list = agenda1.inputFromExcel("agenda_input.xlsx")
-    print(list)
+    excel_input = agenda1.inputFromExcel("agenda_input.xlsx")
 
     #set the title and starting and set the time object tracking cumulative time
-    agenda1.agenda_name = list[0]
-    agenda1.agenda_starttime = list[1]
+    agenda1.agenda_name = excel_input[0]
+    agenda1.agenda_starttime = excel_input[1]
     agenda1.time_object_current = datetime.strptime(agenda1.agenda_starttime, "%H:%M:%S")
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
