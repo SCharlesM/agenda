@@ -32,8 +32,8 @@ class Agenda:
 
     """
     A function to store the data from the Excel document (topic and duration) and 
-     calculate the start-time and end-time for each item. And update the 
-      current time. The data stored ins the list is: Index, Starttime, Endtime, Topic, duration.
+    calculate the start-time and end-time for each item. And update the current time. 
+    The data stored in the list is: Index, Starttime, Endtime, Topic, duration.
     """  
     def addAgendaItem(self, name, duration):
       
@@ -42,7 +42,6 @@ class Agenda:
         agendaItemList.append(index+1)
 
         #using the cumulative time tracker as next items start-time
-        #self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S") #this strips the start-time everytime
         agendaItemList.append(str(self.time_object_current.time()))
 
         #add the duration to get 'endtime' and update 'current_time'
