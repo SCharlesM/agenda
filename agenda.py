@@ -116,7 +116,7 @@ class Agenda:
         sheet = workbook.active
 
         #remove whitespace from the title and use title and timestamp as output filename
-        agenda_name_no_space = self.agenda_name.replace(" ", "")
+        agenda_name_no_space = self.agenda_name.replace(" ", "_")
         timestamp = strftime("_%d_%m_%Y_%I.%M%p", localtime())
         doc_file_name = agenda_name_no_space + timestamp + '.xlsx'
         
