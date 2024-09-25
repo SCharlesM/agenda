@@ -114,32 +114,27 @@ class Agenda:
         workbook = Workbook()
         sheet = workbook.active
 
-        #remove whitespace from the title and use title and timestamp as output filename
+        #change the whitespace in agenda_name to '_' and use title and timestamp as output filename
         agenda_name_no_space = self.agenda_name.replace(" ", "_")
         timestamp = strftime("_%d_%m_%Y_%I.%M%p", localtime())
         doc_file_name = agenda_name_no_space + timestamp + '.xlsx'
         
-
-        new_list = self.agendaList[0]
-
-        #populate a list with the uppercase letters
-        uppercase_list = []
-        for j in string.ascii_uppercase:
-            uppercase_list.append(j)
-
+        #loop through each agenda item contained in agendaList to create a temp list.
+        #Loop through the excel cell descriptors (A1, B1, C1...) to transfer
+        #the agenda item data into each row in the excel sheet
         for l in range(0 , len(self.agendaList)):
 
-            new_list = self.agendaList[l]
+            agenda_item_list = self.agendaList[l]
 
-            for k in range(0, 5):
-                temp_string = (uppercase_list[k] + str(l+1))
-                sheet[temp_string] = new_list[k]
+            for k in range(0, len(agenda_item_list)):
+                cell_description = (string.ascii_uppercase[k] + str(l+1))
+                sheet[cell_description] = agenda_item_list[k]
 
         #save to the workbook using the filename argument
         file_path = 'C:\\Users\\Steve\Documents\\Coding\\python\\agenda_project\\agenda\\outputs\\'
         workbook.save(file_path + doc_file_name)
 
-        #confirm workbook has been saved
+        #output to terminal to confirm workbook has been saved
         print("\nData has been exported and saved with filename: " + doc_file_name)
 
     def inputFromExcel(self, filename):
@@ -165,7 +160,6 @@ class Agenda:
 
         return value_list
             
-
 if __name__ =="__main__":
 
     agenda1 = Agenda()
