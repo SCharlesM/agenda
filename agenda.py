@@ -108,10 +108,10 @@ class Agenda:
         A function to export the Agenda to an Excel document
 
     """
-    def exportToExcel(self, filename):
+    def exportToExcel(self):
 
         #initialist the workbook
-        doc_file_name = str(filename)
+        doc_file_name = self.agenda_name
         workbook = Workbook()
         sheet = workbook.active
 
@@ -180,6 +180,4 @@ if __name__ =="__main__":
 
     #print the agenda to the commandline but also export to excel to allow copy and paste to another table
     agenda1.printAgenda()
-    agenda1.exportToExcel("agenda_output.xlsx")
-    
-    
+    agenda1.exportToExcel()
