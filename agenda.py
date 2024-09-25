@@ -137,8 +137,8 @@ class Agenda:
                 sheet[temp_string] = new_list[k]
 
         #save to the workbook using the filename argument
-        file_location = 'C:\Users\Steve\Documents\Coding\python\agenda_project\agenda\examplefile.xlsx'
-        workbook.save(file_location)
+        file_path = 'C:\\Users\\Steve\Documents\\Coding\\python\\agenda_project\\agenda\\outputs\\'
+        workbook.save(file_path + doc_file_name)
 
         #confirm workbook has been saved
         print("\nData has been exported and saved with filename: " + doc_file_name)
