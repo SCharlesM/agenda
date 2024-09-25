@@ -1,7 +1,5 @@
-A project to help write agendas.
+A project to help me write agendas.
 
-Currently I write agendas by manually writing the time, topic and location in a table in a word processor. If I change the starting time or duration of an item in the agenda I need to manually change all the times.
+Currently I write agendas by manually writing the time, topic and location in a table in a word document. If I change the starting time or duration of an item in the agenda I need to manually change all the subsequent times for the whole agenda.
 
-The Agenda project will allow me to build agendas with Topic names and durations but also easily edit the date, start-time, duration and topics and automatically change the times
-
-
+The Agenda project takes an excel file with; Agenda Title, Agenda start-time, Session titles and Durations, and outputs an agenda with the start-time and end-times for each session. 
