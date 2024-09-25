@@ -87,24 +87,6 @@ class Agenda:
             print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format(string_index, string_starttime, string_endtime, string_topic, string_duration))
 
     """
-    a function to change title of an AgendaItem, using the index of that AgendaItem
-
-    """
-    def editAgendaItemTitle(self, index, new_title):
-
-        temp_list = self.agendaList[index]
-        temp_list[3] = new_title
-
-    """
-    a function to change duration of an AgendaItem, using the index of that item
-
-    """
-    def editAgendaItemDuration(self, index, new_duration):
-
-        temp_list = self.agendaList[index-1]
-        temp_list[4] = new_duration
-
-    """
         A function to export the Agenda to an Excel document
 
     """
