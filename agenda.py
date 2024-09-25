@@ -6,7 +6,8 @@ of topics and durations. agenda.py converts this into an agenda by adding a indi
 each topic based on the duration of each topic. It outputs the resulting agenda to "agenda_output*.xlsx"
 """
 
-from datetime import datetime, time, timedelta, date
+from datetime import datetime, time, timedelta
+from time import strftime, localtime
 from openpyxl import Workbook, load_workbook
 import string
 
@@ -111,9 +112,14 @@ class Agenda:
     def exportToExcel(self):
 
         #initialist the workbook
-        doc_file_name = self.agenda_name
         workbook = Workbook()
         sheet = workbook.active
+
+        #remove whitespace from the title and use title and timestamp as output filename
+        agenda_name_no_space = self.agenda_name.replace(" ", "")
+        timestamp = strftime("_%d_%m_%Y_%I.%M%p", localtime())
+        doc_file_name = agenda_name_no_space + timestamp + '.xlsx'
+        
 
         new_list = self.agendaList[0]
 
@@ -131,7 +137,8 @@ class Agenda:
                 sheet[temp_string] = new_list[k]
 
         #save to the workbook using the filename argument
-        workbook.save(filename=doc_file_name)
+        file_location = 'C:\Users\Steve\Documents\Coding\python\agenda_project\agenda\examplefile.xlsx'
+        workbook.save(file_location)
 
         #confirm workbook has been saved
         print("\nData has been exported and saved with filename: " + doc_file_name)
@@ -174,8 +181,8 @@ if __name__ =="__main__":
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
     list_index = 2
-    while list_index < len(list):
-        agenda1.addAgendaItem(list[list_index], (list[list_index+1]))
+    while list_index < len(excel_input):
+        agenda1.addAgendaItem(excel_input[list_index], (excel_input[list_index+1]))
         list_index = list_index + 2
 
     #print the agenda to the commandline but also export to excel to allow copy and paste to another table
