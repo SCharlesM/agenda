@@ -1,9 +1,9 @@
 """
 Agenda is a simple program to make writing an Agenda easier
 
-When run as a script from the commandline, agenda takes 'agenda_input.xlsx' excel file as 
-an input that includes a start-time, session titles and durations and produces an output excel
-file with the individual session times added.
+agenda.py takes 'agenda_input.xlsx' excel file as an input that includes a Title, a start-time and a list 
+of topics and durations. agenda.py converts this into an agenda by adding a individual start and end time for
+each topic based on the duration of each topic. It outputs the resulting agenda to "agenda_output*.xlsx"
 """
 
 from datetime import datetime, time, timedelta, date
@@ -26,13 +26,14 @@ class Agenda:
         self.agendaList = []
 
         #convert the agenda_starttime string into a time object 
-        #to keep track of current time
+        #to keep track of cumulative time
         self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
         self.string_current_time = str(self.time_object_current.time())
 
     """
-    A function to add an AgendaItem with a name and duration. It is then stored
-    in list with 5 items: Index, Starttime, Endtime, Topic, duration
+    A function to store the data from the Excel document (topic and duration) and 
+     calculate the start-time and end-time for each item. And update the 
+      current time. The data stored ins the list is: Index, Starttime, Endtime, Topic, duration.
     """  
     def addAgendaItem(self, name, duration):
       
@@ -40,8 +41,8 @@ class Agenda:
         index = len(self.agendaList)
         agendaItemList.append(index+1)
 
-        #initialise the start time from the Agenda class current time
-        self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
+        #using the cumulative time tracker as next items start-time
+        #self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S") #this strips the start-time everytime
         agendaItemList.append(str(self.time_object_current.time()))
 
         #add the duration to get 'endtime' and update 'current_time'
@@ -62,14 +63,14 @@ class Agenda:
     """
     def printAgenda(self):
                 
-        #print the header
+        #print the Title and Start time
         print("--------------------------------")
         print("Title: " + self.agenda_name)
         print("Start time: " + self.agenda_starttime)
         print("--------------------------------")
         
-        #print the headers
-        print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format('Index', 'start-time', 'end-time', 'Title', 'duration'))
+        #print the column headings
+        print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format('Index', 'Start', 'End', 'Title', 'duration'))
 
         #iterate throught the agendaList and print each individual list
         for j in range(0, len(self.agendaList)):
@@ -178,9 +179,10 @@ if __name__ =="__main__":
     list = agenda1.inputFromExcel("agenda_input.xlsx")
     print(list)
 
-    #set the title and starting
+    #set the title and starting and set the time object tracking cumulative time
     agenda1.agenda_name = list[0]
     agenda1.agenda_starttime = list[1]
+    agenda1.time_object_current = datetime.strptime(agenda1.agenda_starttime, "%H:%M:%S")
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
     list_index = 2
