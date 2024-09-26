@@ -32,7 +32,7 @@ class Agenda:
         #self.string_current_time = str(self.time_object_current.time())
     """
     A function to populate the agenda_list from the excel_input. Creat a dictionary
-    with data; index, starttime, endtime, topic and duration
+    with data; index, topic, duration, starttime, endtime, 
     """
     def populate_agenda(self, excel_input) :
         #pass
@@ -40,16 +40,21 @@ class Agenda:
         index = 1   #index needs to only go up 1
                     #there needs to be another iterator that goes up 2
         while index < len(excel_input) :
-            agenda_dict = dict(index = index, duration = 0, start = 0, end = 0, topic = "")
+
+            v1, v2 = excel_input[index - 1]
+
+            agenda_dict = dict(index = index, topic = v1, duration = v2)
+            """
             agenda_dict["duration"] = excel_input[index+2]
             agenda_dict["start"] = str(self.time_object_current.time())
             self.time_object_current += timedelta(minutes = int(excel_input[index+2]))
             agenda_dict["end"] = str(self.time_object_current.time())
             agenda_dict["topic"] = excel_input[index+1]
+            """
             print(agenda_dict)
 
             self.agenda_list.append(agenda_dict)
-            index += 2
+            index += 1
 
         print(self.agenda_list)
 
