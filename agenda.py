@@ -35,23 +35,16 @@ class Agenda:
     with data; index, topic, duration, starttime, endtime, 
     """
     def populate_agenda(self, excel_input) :
-        #pass
 
-        index = 1   #index needs to only go up 1
-                    #there needs to be another iterator that goes up 2
-        while index < len(excel_input) :
+        index = 1   
+        while index < len(excel_input) :        #re-write with for loop?
 
-            v1, v2 = excel_input[index - 1]
+            topic_title, topic_duration = excel_input[index - 1]
 
-            agenda_dict = dict(index = index, topic = v1, duration = v2)
-            """
-            agenda_dict["duration"] = excel_input[index+2]
+            agenda_dict = dict(index = index, topic = topic_title, duration = topic_duration)
             agenda_dict["start"] = str(self.time_object_current.time())
-            self.time_object_current += timedelta(minutes = int(excel_input[index+2]))
+            self.time_object_current += timedelta(minutes = topic_duration)
             agenda_dict["end"] = str(self.time_object_current.time())
-            agenda_dict["topic"] = excel_input[index+1]
-            """
-            print(agenda_dict)
 
             self.agenda_list.append(agenda_dict)
             index += 1
@@ -98,20 +91,16 @@ class Agenda:
         
         #print the column headings
         print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format('Index', 'Start', 'End', 'Title', 'duration'))
-
-        #iterate throught the agenda_list and print each individual list
-        for j in range(0, len(self.agenda_list)):
-
-            new_list = self.agenda_list[j]
-
-            string_index = str(new_list[0])
-            string_starttime = new_list[1]
-            string_endtime = new_list[2]
-            string_topic = new_list[3]
-            string_duration = new_list[4]
         
+        for object in self.agenda_list :
+            s1 = str(object['index'])
+            s2 = object['start']
+            s3 = object['end']
+            s4 = object['topic']
+            s5 = str(object['duration'])
+
             #format the strings, left align 20, left align 10 (string)
-            print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format(string_index, string_starttime, string_endtime, string_topic, string_duration))
+            print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format(s1, s2, s3, s4, s5))  
 
     """
         A function to export the Agenda to an Excel document
@@ -122,11 +111,26 @@ class Agenda:
         workbook = Workbook()
         sheet = workbook.active
 
-        #change the whitespace in agenda_name to '_' and use title and timestamp as output filename
+        #change the whitespace in agenda_name to '_' and use name and timestamp as output filename
         agenda_name_no_space = self.agenda_name.replace(" ", "_")
         timestamp = strftime("_%d_%m_%Y_%I.%M%p", localtime())
         doc_file_name = agenda_name_no_space + timestamp + '.xlsx'
         
+        #set A1 as 'Title' and A2 as the agenda_title
+        #set B1 as 'starttime' and B2 as the agenda_start
+        sheet['A1'] = 'Title'
+        sheet['B1'] = self.agenda_name
+        sheet['A2'] = 'Starttime'
+        sheet['B2'] = self.agenda_starttime
+
+        #iterate though the excel cells to store the afenda item data into each cell
+        for item in self.agenda_list :
+            
+            i = 0
+            for x,y in item :
+                cell = string.ascii_uppercase[0] + str(1)
+                sheet[cell] = item[i]
+        """
         #loop through each agenda item contained in agenda_list to create a temp list.
         #Loop through the excel cell descriptors (A1, B1, C1...) to transfer
         #the agenda item data into each row in the excel sheet
@@ -137,7 +141,7 @@ class Agenda:
             for k in range(0, len(agenda_item)):
                 cell_description = (string.ascii_uppercase[k] + str(l+1))
                 sheet[cell_description] = agenda_item[k]
-
+        """
         #save to the workbook using the filename argument
         file_path = 'C:\\Users\\Steve\Documents\\Coding\\python\\agenda_project\\agenda\\outputs\\'
         workbook.save(file_path + doc_file_name)
