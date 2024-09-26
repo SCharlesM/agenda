@@ -76,7 +76,7 @@ class Agenda:
         #change the whitespace in agenda_name to '_' and use name and timestamp as output filename
         agenda_name_no_space = self.agenda_name.replace(" ", "_")
         timestamp = strftime("_%d_%m_%Y_%I.%M%p", localtime())
-        doc_file_name = agenda_name_no_space, timestamp, '.xlsx'
+        doc_file_name = agenda_name_no_space + timestamp + '.xlsx'
         
         #set the Title and Start-time at the top of the sheet
         sheet['A1'] = 'Title:'
