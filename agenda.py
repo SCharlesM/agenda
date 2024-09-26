@@ -140,6 +140,10 @@ class Agenda:
         #output to terminal to confirm workbook has been saved
         print("\nData has been exported and saved with filename: " + doc_file_name)
 
+        """
+        a function to extract data from the 'input.xlsx' sheet, including Title, starttime and for each agenda
+        item the session title and duration. Returns a list of tuples.
+        """
     def inputFromExcel(self, filename):
 
         #initialise the workbook with filename
@@ -149,17 +153,16 @@ class Agenda:
         #iterate through the sheet, return the cell values and add them to a value list and return
         value_list = []
 
-        title = sheet["B2"].value
-        value_list.append(title)
-        start = sheet["B3"].value
-        value_list.append(str(start))
+        title = sheet["B2"].value                   #could this directly update the agenda title
+        starttime = sheet["B3"].value               #and start time?
+        t = (title, str(starttime) )               #is it best to store the date.time object or string?
+        value_list.append(t)                
+
+        #new_title, new_starttime = value_list[0]    #unpack the values (use later)
 
         for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
 
-            value = row[0]
-            value_list.append(value)
-            value2 = str(int(row[1]))
-            value_list.append(value2)
+            value_list.append(row)
 
         return value_list
             
