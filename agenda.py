@@ -33,6 +33,7 @@ class Agenda:
     """
     A function to populate the agenda_list from the excel_input. Create a dictionary
     with data; index, topic, duration, starttime, endtime, 
+    can i do index, start, end, topic, duration?
     """
     def populate_agenda(self, excel_input) :
 
@@ -41,7 +42,7 @@ class Agenda:
 
             topic_title, topic_duration = excel_input[index - 1]
 
-            agenda_dict = dict(index = str(index), topic = topic_title, duration = str(topic_duration))
+            agenda_dict = dict(index = str(index), start = "", end = "", topic = topic_title, duration = str(topic_duration))
             agenda_dict["start"] = str(self.time_object_current.time())
             self.time_object_current += timedelta(minutes = topic_duration)
             agenda_dict["end"] = str(self.time_object_current.time())
@@ -119,32 +120,30 @@ class Agenda:
         
         #set A1 as 'Title' and A2 as the agenda_title
         #set B1 as 'starttime' and B2 as the agenda_start
-        sheet['A1'] = 'Title'
+        sheet['A1'] = 'Title:'
         sheet['B1'] = self.agenda_name
-        sheet['A2'] = 'Starttime'
+        sheet['A2'] = 'Start-time:'
         sheet['B2'] = self.agenda_starttime
+        sheet['A4'] = 'Index'                       #can this be done any better using keys?    
+        sheet['B4'] = 'Start'
+        sheet['C4'] = 'End'
+        sheet['D4'] = 'Topic'
+        sheet['E4'] = 'Duration'
 
         #iterate though the excel cells to store the afenda item data into each cell
         #item is the dictionary, i need o unpack the values and store in excel
+
+        j = 5                          #to start at row 5 in excel sheet
         for item in self.agenda_list :
-            
-            a1, a2, a3, a4, a5 = item.values()
 
-            for i in range(0, len(item)) :                               #working on this here
-                cell = string.ascii_uppercase[i] + str(i+1)
-                sheet[cell] = a + (i+1)
-        """
-        #loop through each agenda item contained in agenda_list to create a temp list.
-        #Loop through the excel cell descriptors (A1, B1, C1...) to transfer
-        #the agenda item data into each row in the excel sheet
-        for l in range(0 , len(self.agenda_list)):
+            i = 0                       #to start at letter A
+            for key in item :
+                cell = string.ascii_uppercase[i] + str(j)
+                sheet[cell] = item[key]
+                i += 1
 
-            agenda_item = self.agenda_list[l]
+            j += 1
 
-            for k in range(0, len(agenda_item)):
-                cell_description = (string.ascii_uppercase[k] + str(l+1))
-                sheet[cell_description] = agenda_item[k]
-        """
         #save to the workbook using the filename argument
         file_path = 'C:\\Users\\Steve\Documents\\Coding\\python\\agenda_project\\agenda\\outputs\\'
         workbook.save(file_path + doc_file_name)
