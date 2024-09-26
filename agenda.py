@@ -22,8 +22,8 @@ class Agenda:
     """
     def __init__(self):
         
-        #self.agenda_name = ""           #do i need to initialise these?
-        #self.agenda_starttime = "00:00:00"
+        self.agenda_name = ""           
+        self.agenda_starttime = "00:00:00"
         self.agenda_list = []
 
         #convert the agenda_starttime string into a time object 
@@ -146,20 +146,18 @@ class Agenda:
         """
     def inputFromExcel(self, filename):
 
-        #initialise the workbook with filename
+        #initialise the workbook with filename and initialise an empty list
         workbook = load_workbook(filename)
         sheet = workbook.active
-
-        #iterate through the sheet, return the cell values and add them to a value list and return
         value_list = []
 
-        title = sheet["B2"].value                   #could this directly update the agenda title
-        starttime = sheet["B3"].value               #and start time?
-        t = (title, str(starttime) )               #is it best to store the date.time object or string?
-        value_list.append(t)                
+        #set the title and startime of the agenda
+        self.agenda_name = sheet["B2"].value        
+        self.agenda_starttime = str(sheet["B3"].value)   #does it matter if this is a date.time object?             
 
         #new_title, new_starttime = value_list[0]    #unpack the values (use later)
 
+        #iterate through the rows and add the tuple of values to the list and return the list
         for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
 
             value_list.append(row)
@@ -173,9 +171,7 @@ if __name__ =="__main__":
     #populate a list with session titles and durations from the excel input file
     excel_input = agenda1.inputFromExcel("agenda_input.xlsx")
 
-    #set the title and starting and set the time object tracking cumulative time
-    agenda1.agenda_name = excel_input[0]
-    agenda1.agenda_starttime = excel_input[1]
+    #format the starttime date.time object
     agenda1.time_object_current = datetime.strptime(agenda1.agenda_starttime, "%H:%M:%S")
 
     #iterate through the list and add the titles and durations to the Agenda using 'addAgendaItem' function
