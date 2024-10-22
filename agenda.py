@@ -4,7 +4,7 @@ Agenda is a simple program to make writing an Agenda easier
 agenda.py takes 'agenda_input.xlsx' excel file as an input that includes a Title, 
 start time and a list of topics and durations. agenda.py converts this into an agenda
 by adding a individual start and end time for each topic based on the duration of each
-topic. It outputs the resulting agenda to "agenda_output*.xlsx"
+topic. It outputs the resulting agenda to "agenda_output<timestamp>.xlsx"
 """
 
 from datetime import datetime, timedelta
@@ -107,21 +107,25 @@ class Agenda:
 
     def input_from_excel(self, filename):
         """Function to extract data from input.xlsx"""
-
-        #initialise the workbook with filename and initialise an empty list
-        workbook = load_workbook(filename)
-        sheet = workbook.active
         value_list = []
 
-        #set the title and startime of the agenda
-        self.agenda_name = sheet["B2"].value
-        self.agenda_starttime = str(sheet["B3"].value)
+        #initialise the workbook with filename and initialise an empty list
+        try :
+            workbook = load_workbook(filename)
+            sheet = workbook.active
+            #value_list = []
 
-        #iterate through the rows and add the tuple of values to the list and return the list
-        for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
+            #set the title and startime of the agenda
+            self.agenda_name = sheet["B2"].value
+            self.agenda_starttime = str(sheet["B3"].value)
 
-            value_list.append(row)
+            #iterate through the rows and add the tuple of values to the list and return the list
+            for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
 
+             value_list.append(row)
+        except FileNotFoundError:
+            print("\nThe file was not found, please check the path and try again")
+        
         return value_list
 
 if __name__ =="__main__":
@@ -131,12 +135,16 @@ if __name__ =="__main__":
     #populate a list with session titles and durations from the excel input file
     excel_input = agenda1.input_from_excel("agenda_input.xlsx")
 
-    #format the starttime date.time object
-    #agenda1.time_object_current = datetime.strptime(agenda1.agenda_starttime, "%H:%M:%S")
+    if not excel_input :
+        print("\nagenda_input.xlsx is empty or doesn't exist, please check the file and try again")
+    else :
 
-    #populate the agenda_list with the dictionaries containing all the agenda items
-    agenda1.populate_agenda(excel_input)
+        #format the starttime date.time object
+        agenda1.time_object_current = datetime.strptime(agenda1.agenda_starttime, "%H:%M:%S")
 
-    #print the agenda to the commandline but also export to excel
-    agenda1.print_agenda()
-    agenda1.export_to_excel()
+        #populate the agenda_list with the dictionaries containing all the agenda items
+        agenda1.populate_agenda(excel_input)
+
+        #print the agenda to the commandline but also export to excel
+        agenda1.print_agenda()
+        agenda1.export_to_excel()
