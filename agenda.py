@@ -30,11 +30,10 @@ class Agenda:
     def populate_agenda(self, excel_data) :
         """Function to populate agenda list from excel input, stored in a dictionary"""
 
-        index = 1
-        while index < len(excel_data) :        #re-write with 'for' loop?
-
+        for index, entry in enumerate(excel_data, start=1) :
+            
             #extract the tuples from the excel_input and initialise the dictionary
-            topic_title, topic_duration = excel_data[index - 1]
+            topic_title, topic_duration = entry
             agenda_dict = {
                 'index': str(index), 
                 'start': "",
@@ -49,7 +48,7 @@ class Agenda:
             agenda_dict["end"] = str(self.time_object_current.time())
 
             self.agenda_list.append(agenda_dict)
-            index += 1
+            #index += 1
 
     def print_agenda(self):
         """Function to print a header and iterate through the agenda list to print each item"""
@@ -109,11 +108,9 @@ class Agenda:
         """Function to extract data from input.xlsx"""
         value_list = []
 
-        #initialise the workbook with filename and initialise an empty list
         try :
             workbook = load_workbook(filename)
             sheet = workbook.active
-            #value_list = []
 
             #set the title and startime of the agenda
             self.agenda_name = sheet["B2"].value
@@ -122,10 +119,11 @@ class Agenda:
             #iterate through the rows and add the tuple of values to the list and return the list
             for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
 
-             value_list.append(row)
+                value_list.append(row)
+
         except FileNotFoundError:
             print("\nThe file was not found, please check the path and try again")
-        
+
         return value_list
 
 if __name__ =="__main__":
