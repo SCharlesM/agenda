@@ -31,7 +31,7 @@ class Agenda:
         """Function to populate agenda list from excel input, stored in a dictionary"""
 
         for index, entry in enumerate(excel_data, start=1) :
-            
+         
             #extract the tuples from the excel_input and initialise the dictionary
             topic_title, topic_duration = entry
             agenda_dict = {
@@ -87,16 +87,14 @@ class Agenda:
 
         #iterate though the excel cells to store the agenda item data into each cell
         #item is the dictionary, need to unpack the values and store in excel
-
-        j = 5                          #to start at row 5 in excel sheet
-        for item in self.agenda_list :
-
-            i = 0                       #to start at letter A
+        i = 5
+        for item in self.agenda_list:
+            j = 1
             for key in item :
-                cell = string.ascii_uppercase[i] + str(j)
-                sheet[cell] = item[key]
-                i += 1
-            j += 1
+                cell_reference = sheet.cell(row=i, column=j)
+                cell_reference.value = item[key]
+                j += 1
+            i += 1
 
         #save to the workbook using the filename argument.
         file_path = 'C:\\Users\\Steve\\Documents\\Coding\\python\\agenda_project\\agenda\\outputs\\'
@@ -117,6 +115,7 @@ class Agenda:
             self.agenda_starttime = str(sheet["B3"].value)
 
             #iterate through the rows and add the tuple of values to the list and return the list
+            #need to add something about checking how long the input is and changing max_rows
             for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
 
                 value_list.append(row)
