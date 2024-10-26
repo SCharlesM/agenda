@@ -9,7 +9,6 @@ topic. It outputs the resulting agenda to "agenda_output<timestamp>.xlsx"
 
 from datetime import datetime, timedelta
 from time import strftime, localtime
-import string
 from openpyxl import Workbook, load_workbook
 
 class Agenda:
@@ -31,7 +30,7 @@ class Agenda:
         """Function to populate agenda list from excel input, stored in a dictionary"""
 
         for index, entry in enumerate(excel_data, start=1) :
-         
+
             #extract the tuples from the excel_input and initialise the dictionary
             topic_title, topic_duration = entry
             agenda_dict = {
