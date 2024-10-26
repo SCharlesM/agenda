@@ -1,15 +1,15 @@
 """
 Agenda is a simple program to make writing an Agenda easier
 
-agenda.py takes 'agenda_input.xlsx' excel file as an input that includes a Title, a start-time and a list 
-of topics and durations. agenda.py converts this into an agenda by adding a individual start and end time for
-each topic based on the duration of each topic. It outputs the resulting agenda to "agenda_output*.xlsx"
+agenda.py takes 'agenda_input.xlsx' excel file as an input that includes a Title, 
+start time and a list of topics and durations. agenda.py converts this into an agenda
+by adding a individual start and end time for each topic based on the duration of each
+topic. It outputs the resulting agenda to "agenda_output<timestamp>.xlsx"
 """
 
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 from time import strftime, localtime
 from openpyxl import Workbook, load_workbook
-import string
 
 class Agenda:
 
@@ -20,56 +20,51 @@ class Agenda:
     agenda_list will be used to hold the dictionarys with each agenda item data
     """
     def __init__(self):
-        
-        self.agenda_name = ""           
+        self.agenda_name = ""
         self.agenda_starttime = "00:00:00"
         self.agenda_list = []
+        self.time_object_current = datetime.strptime(self.agenda_starttime, "%H:%M:%S")
 
-    """
-    A function to populate the agenda_list from the excel sheet. Create a dictionary
-    with all the data: index, start, end, topic, duration
-    """
-    def populate_agenda(self, excel_input) :
 
-        index = 1   
-        while index < len(excel_input) :        #re-write with 'for' loop?
+    def populate_agenda(self, excel_data) :
+        """Function to populate agenda list from excel input, stored in a dictionary"""
+
+        for index, entry in enumerate(excel_data, start=1) :
 
             #extract the tuples from the excel_input and initialise the dictionary
-            topic_title, topic_duration = excel_input[index - 1]
-            agenda_dict = dict(index = str(index), start = "", end = "", topic = topic_title, duration = str(topic_duration))
-            
+            topic_title, topic_duration = entry
+            agenda_dict = {
+                'index': str(index), 
+                'start': "",
+                'end': "", 
+                'topic': topic_title,
+                'duration': str(topic_duration)
+            }
+
             #add the start and end times using the time objects
             agenda_dict["start"] = str(self.time_object_current.time())
             self.time_object_current += timedelta(minutes = topic_duration)
             agenda_dict["end"] = str(self.time_object_current.time())
 
             self.agenda_list.append(agenda_dict)
-            index += 1
+            #index += 1
 
-    """
-    a print function to print a header and iterate through the agenda_list to print each item
-    """
-    def printAgenda(self):
+    def print_agenda(self):
+        """Function to print a header and iterate through the agenda list to print each item"""
 
         print("----------------------------------------------------------")
         print("Title: ", self.agenda_name, "\nStart time: ", self.agenda_starttime)
         print("----------------------------------------------------------")
-        
-        #print the column headings
-        print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format('Index', 'Start', 'End', 'Title', 'duration'))
-        
-        for object in self.agenda_list :
-            s1, s2, s3, s4, s5 = object.values()
-            
-            #format the strings, left align 20, left align 10 (string)
-            print( '{:<10s} {:<10s} {:<10s} {:<15s} {:<10s}'.format(s1, s2, s3, s4, s5))  
+        header = f"{'Index':<10} {'Start':<10} {'End':<11}{'Title':<16}{'Duration':<10}"
+        print(header)
 
-    """
-        A function to export the Agenda to an Excel document
-    """
-    def exportToExcel(self):
+        for entry in self.agenda_list :
+            s1, s2, s3, s4, s5 = entry.values()
+            agenda_entries = f"{s1:<10} {s2:<10} {s3:<10} {s4:<16} {s5:<10}"
+            print(agenda_entries)
 
-        #initialist the workbook
+    def export_to_excel(self):
+        """Function to export the Agenda to an Excel document"""
         workbook = Workbook()
         sheet = workbook.active
 
@@ -77,73 +72,75 @@ class Agenda:
         agenda_name_no_space = self.agenda_name.replace(" ", "_")
         timestamp = strftime("_%d_%m_%Y_%I.%M%p", localtime())
         doc_file_name = agenda_name_no_space + timestamp + '.xlsx'
-        
+
         #set the Title and Start-time at the top of the sheet
         sheet['A1'] = 'Title:'
         sheet['B1'] = self.agenda_name
         sheet['A2'] = 'Start-time:'
         sheet['B2'] = self.agenda_starttime
-        sheet['A4'] = 'Index'                       #can this be done any better using the keys?    
+        sheet['A4'] = 'Index'                       #can this be done any better using the keys?
         sheet['B4'] = 'Start'
         sheet['C4'] = 'End'
         sheet['D4'] = 'Topic'
-        sheet['E4'] = 'Duration'      
+        sheet['E4'] = 'Duration'
 
         #iterate though the excel cells to store the agenda item data into each cell
-        #item is the dictionary, i need o unpack the values and store in excel
-
-        j = 5                          #to start at row 5 in excel sheet
-        for item in self.agenda_list :
-
-            i = 0                       #to start at letter A
+        #item is the dictionary, need to unpack the values and store in excel
+        i = 5
+        for item in self.agenda_list:
+            j = 1
             for key in item :
-                cell = string.ascii_uppercase[i] + str(j)
-                sheet[cell] = item[key]
-                i += 1
-            j += 1
+                cell_reference = sheet.cell(row=i, column=j)
+                cell_reference.value = item[key]
+                j += 1
+            i += 1
 
-        #save to the workbook using the filename argument. 
-        file_path = 'C:\\Users\\Steve\Documents\\Coding\\python\\agenda_project\\agenda\\outputs\\'
+        #save to the workbook using the filename argument.
+        file_path = 'C:\\Users\\Steve\\Documents\\Coding\\python\\agenda_project\\agenda\\outputs\\'
         workbook.save(file_path + doc_file_name)
 
-        #output to terminal to confirm workbook has been saved
         print("\nData has been exported and saved with filename: " + doc_file_name)
 
-        """
-        a function to extract data from the 'input.xlsx' sheet, including Title, starttime and for each agenda
-        item the session title and duration. Returns a list of tuples.
-        """
-    def inputFromExcel(self, filename):
-
-        #initialise the workbook with filename and initialise an empty list
-        workbook = load_workbook(filename)
-        sheet = workbook.active
+    def input_from_excel(self, filename):
+        """Function to extract data from input.xlsx"""
         value_list = []
 
-        #set the title and startime of the agenda
-        self.agenda_name = sheet["B2"].value        
-        self.agenda_starttime = str(sheet["B3"].value)
+        try :
+            workbook = load_workbook(filename)
+            sheet = workbook.active
 
-        #iterate through the rows and add the tuple of values to the list and return the list
-        for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
+            #set the title and startime of the agenda
+            self.agenda_name = sheet["B2"].value
+            self.agenda_starttime = str(sheet["B3"].value)
 
-            value_list.append(row)
+            #iterate through the rows and add the tuple of values to the list and return the list
+            #need to add something about checking how long the input is and changing max_rows
+            for row in sheet.iter_rows(min_row = 5, max_row = 14, min_col = 1, max_col = 2, values_only = True):
+
+                value_list.append(row)
+
+        except FileNotFoundError:
+            print("\nThe file was not found, please check the path and try again")
 
         return value_list
-            
+
 if __name__ =="__main__":
 
     agenda1 = Agenda()
 
     #populate a list with session titles and durations from the excel input file
-    excel_input = agenda1.inputFromExcel("agenda_input.xlsx")
+    excel_input = agenda1.input_from_excel("agenda_input.xlsx")
 
-    #format the starttime date.time object
-    agenda1.time_object_current = datetime.strptime(agenda1.agenda_starttime, "%H:%M:%S")
+    if not excel_input :
+        print("\nagenda_input.xlsx is empty or doesn't exist, please check the file and try again")
+    else :
 
-    #populate the agenda_list with the dictionaries containing all the agenda items
-    agenda1.populate_agenda(excel_input)
+        #format the starttime date.time object
+        agenda1.time_object_current = datetime.strptime(agenda1.agenda_starttime, "%H:%M:%S")
 
-    #print the agenda to the commandline but also export to excel
-    agenda1.printAgenda()
-    agenda1.exportToExcel()
+        #populate the agenda_list with the dictionaries containing all the agenda items
+        agenda1.populate_agenda(excel_input)
+
+        #print the agenda to the commandline but also export to excel
+        agenda1.print_agenda()
+        agenda1.export_to_excel()
