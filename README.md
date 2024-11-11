@@ -1,9 +1,9 @@
 Version 1 (v1)
 
-A project to help me write agendas.
+A project to help write agendas.
 
-Currently I write agendas by manually writing the starting time, end time and topic for each session in a table in a word document.
+Writing agendas manually involved writing the starting time, end time and title for each session into a table.
 
-If I need to change the starting time or duration of a sessionin the agenda, I need to manually change all the subsequent start times and end times for the whole agenda, which can be very time consuming.
+If any changes to the start time, order of sessions or duration of sessions needs to happen, the agenda has to be updated and re-written, which can be very time consuming.
 
-The Agenda project takes as input an excel file 'agenda_input.xlsx', including; Agenda Title, Agenda start-time, Session titles and Durations, and outputs an agenda with the start-time and end-times added for each session.
+The Agenda project takes an excel file 'agenda_input.xlsx' as input. This includes the following information: Title, start time, session title and duration, and outputs an agenda with the start-time and end-times added for each session.
